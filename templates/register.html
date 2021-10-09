@@ -10,6 +10,9 @@
                     {{ form.csrf_token() }}
                     <div class="control">
                         {{ form.username(class="input", placeholder="Username") }}
+                        {% for error in form.username.errors %}
+                            {{ error }}
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="field">
