@@ -8,11 +8,12 @@
 
             <form method="POST">
                 <div class="field">
+                    {{ form.csrf_token() }}
                     <div class="control">
-                        <input class="input" type="text" name="username" placeholder="Username">
+                       {{ form.username(class="input", placeholder="Username") }}
                     </div>
                 </div>
-                <button class="button is-block is-info is-fullwidth">Enter</button>
+               {{ form.submit(class="button is-info is-centered") }}
             </form>
 
         </div>
