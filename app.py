@@ -9,6 +9,21 @@ def index():  # put application's code here
     return render_template('index.html', name='Nate')
 
 
+@app.route('/blog')
+def blog():
+    return render_template('blog.html')
+
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+
+@app.route('/register')
+def register():
+    return render_template('register.html')
+
+
 if __name__ == '__main__':
     my_host = "127.0.0.1"
     free_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
