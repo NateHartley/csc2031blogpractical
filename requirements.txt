@@ -2,3 +2,5 @@ WTForms
 Flask-WTF
 email-validator
 Flask-SQLAlchemy
+pycryptodome
+cryptography
