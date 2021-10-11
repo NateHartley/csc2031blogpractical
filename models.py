@@ -13,9 +13,10 @@ class User(db.Model):
         self.username = username
         self.password = password
 
-    def init_db():  # error occurs here, there should be a self parameter but adding this also causes errors
-        db.drop_all()
-        db.create_all()
-        new_user = User(username='user1@test.com', password='mysecretpassword')
-        db.session.add(new_user)
-        db.session.commit()
+
+def init_db():
+    db.drop_all()
+    db.create_all()
+    new_user = User(username='user1@test.com', password='mysecretpassword')
+    db.session.add(new_user)
+    db.session.commit()
