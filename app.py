@@ -1,7 +1,10 @@
+# IMPORTS
 import socket
 from flask import Flask, render_template
+from flask_login import LoginManager
 from flask_sqlalchemy import SQLAlchemy
 
+# CONFIG
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'LongAndRandomSecretKey'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///blog.db'
@@ -10,10 +13,10 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
 
 
+# HOME PAGE VIEW
 @app.route('/')
-def index():  # put application's code here
+def index():
     return render_template('index.html')
-
 
 # ERROR PAGE VIEWS
 @app.errorhandler(403)
@@ -38,6 +41,17 @@ if __name__ == '__main__':
     free_socket.listen(5)
     free_port = free_socket.getsockname()[1]
     free_socket.close()
+
+    login_manager = LoginManager()
+    login_manager.login_view = 'users.login'
+    login_manager.init_app(app)
+
+    from models import User
+
+
+    @login_manager.user_loader
+    def load_user(id):
+        return User.query.get(int(id))
 
     # BLUEPRINTS
     from users.views import users_blueprint

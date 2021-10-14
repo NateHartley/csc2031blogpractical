@@ -4,3 +4,5 @@ email-validator
 Flask-SQLAlchemy
 pycryptodome
 cryptography
+Flask-Login
+werkzeug
