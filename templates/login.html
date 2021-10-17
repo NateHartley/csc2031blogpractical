@@ -1,3 +1,5 @@
+{% extends "base.html" %}
+
 {% block content %}
     <div class="column is-4 is-offset-4">
         <h3 class="title">Login</h3>
@@ -27,12 +29,16 @@
                             {% endfor %}
                         </div>
                     </div>
-
+                    <div>
+                        {{ form.recaptcha }}
+                        {% for error in form.recaptcha.errors %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
                     <div>
                         {{ form.submit(class="button is-info is-centered") }}
                     </div>
                 </form>
-
         </div>
     </div>
 {% endblock %}
