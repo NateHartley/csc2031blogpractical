@@ -6,6 +6,7 @@ from app import db
 from blog.views import blog
 from models import User
 from users.forms import RegisterForm, LoginForm
+import pyotp
 
 users_blueprint = Blueprint('users', __name__, template_folder='templates')
 
@@ -21,7 +22,7 @@ def register():
             flash('Username address already exists')
             return render_template('register.html', form=form)
 
-        new_user = User(username=form.username.data, password=form.password.data)
+        new_user = User(username=form.username.data, password=form.password.data, pinkey=form.pinkey.data)
 
         db.session.add(new_user)
         db.session.commit()
@@ -44,12 +45,17 @@ def login():
 
             return render_template('login.html', form=form)
 
-        login_user(user)
+        if pyotp.TOTP(user.pinkey).verify(form.otp.data):
 
-        user.last_logged_in = user.current_logged_in
-        user.current_logged_in = datetime.now()
-        db.session.add(user)
-        db.session.commit()
+            login_user(user)
+
+            user.last_logged_in = user.current_logged_in
+            user.current_logged_in = datetime.now()
+            db.session.add(user)
+            db.session.commit()
+
+        else:
+            flash("You have supplied an invalid 2FA token!", "danger")
 
         return blog()
     return render_template('login.html', form=form)
