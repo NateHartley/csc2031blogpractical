@@ -52,6 +52,7 @@ def login():
         user = User.query.filter_by(username=form.username.data).first()
 
         if not user or not check_password_hash(user.password, form.password.data):
+
             # if no match create appropriate error message based on login attempts
             if session['logins'] == 3:
                 flash('Number of incorrect logins exceeded')
@@ -62,7 +63,7 @@ def login():
 
             return render_template('login.html', form=form)
 
-        if pyotp.TOTP(user.pinkey).verify(form.otp.data):
+        if pyotp.TOTP(user.pinkey).verify(form.pinkey.data):
 
             # if user is verified reset login attempts to 0
             session['logins'] = 0
