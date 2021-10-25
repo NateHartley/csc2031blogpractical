@@ -32,8 +32,8 @@
                     </div>
                     <div class="field">
                         <div class="control">
-                            {{ form.pinkey(class="input", placeholder="Time-Based PIN") }}
-                            {% for error in form.pinkey.errors %}
+                            {{ form.pin(class="input", placeholder="Time-Based PIN") }}
+                            {% for error in form.pin.errors %}
                                 {{ error }}
                             {% endfor %}
                         </div>

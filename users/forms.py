@@ -30,11 +30,11 @@ class RegisterForm(FlaskForm):
 class LoginForm(FlaskForm):
     username = StringField(validators=[Required(), Email()])
     password = PasswordField(validators=[Required()])
-    pinkey = StringField(validators=[Required()])
+    pin = StringField(validators=[Required()])
     recaptcha = RecaptchaField()
     submit = SubmitField()
 
-    def validate_pin(self, pinkey):
+    def validate_pin(self, pin):
         pi = re.compile(r'^(?:\s*)\d{6}(?:\s*)$')
-        if not pi.match(self.pinkey.data):
+        if not pi.match(self.pin.data):
             raise ValidationError("PIN must only contain integers and have a length of 6.")

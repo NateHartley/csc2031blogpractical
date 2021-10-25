@@ -71,7 +71,7 @@ def login():
 
             return render_template('login.html', form=form)
 
-        if pyotp.TOTP(user.pinkey).verify(form.pinkey.data):
+        if pyotp.TOTP(user.pinkey).verify(form.pin.data):
             session['logins'] = 0
             login_user(user)
             user.last_logged_in = user.current_logged_in
