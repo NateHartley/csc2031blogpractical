@@ -29,7 +29,7 @@
                         <a href="{{ url_for('index') }}" class="navbar-item">
                             Home
                         </a>
-                        {% if current_user.is_authenticated %}
+                        {% if current_user.is_authenticated and current_user.role=='user'%}
                             <a href="{{ url_for('blog.blog') }}" class="navbar-item">
                                 Blog
                             </a>
@@ -43,6 +43,11 @@
                             </a>
                             <a href="{{ url_for('users.login') }}" class="navbar-item">
                                 Login
+                            </a>
+                        {% endif %}
+                        {% if current_user.is_authenticated and current_user.role=='admin'%}
+                            <a href="{{ url_for('admin.admin') }}" class="navbar-item">
+                            Admin
                             </a>
                         {% endif %}
                         {% if current_user.is_authenticated %}

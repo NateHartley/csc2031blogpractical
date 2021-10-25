@@ -28,6 +28,7 @@ def register():
         # create a new user with the form data
         new_user = User(username=form.username.data,
                         password=form.password.data,
+                        role='user',
                         pinkey=form.pinkey.data)
 
         # add the new user to the database
@@ -78,7 +79,12 @@ def login():
             user.current_logged_in = datetime.now()
             db.session.commit()
             logging.warning('SECURITY - Log in [%s, %s, %s]', current_user.id, current_user.username, request.remote_addr)
-            return blog()
+
+            # direct to role appropriate page
+            if current_user.role == 'admin':
+                return redirect(url_for('admin.admin'))
+            else:
+                return redirect(url_for('blog.blog'))
 
         else:
             flash("You have supplied an invalid 2FA token!", "danger")

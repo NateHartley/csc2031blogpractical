@@ -2,15 +2,17 @@ import copy
 from flask import Blueprint, render_template
 from flask_login import login_required, current_user
 from sqlalchemy import desc
-from app import db
+from app import db, requires_roles
 from blog.forms import PostForm
 from models import Post, User
 
+# CONFIG
 blog_blueprint = Blueprint('blog', __name__, template_folder='templates')
 
 
 @blog_blueprint.route('/blog')
 @login_required
+@requires_roles('user')
 def blog():
     posts = Post.query.order_by(desc('id')).all()
 
@@ -29,9 +31,9 @@ def blog():
     return render_template('blog.html', posts=decrypted_posts)
 
 
-
 @blog_blueprint.route('/create', methods=('GET', 'POST'))
 @login_required
+@requires_roles('user')
 def create():
     form = PostForm()
 
@@ -48,6 +50,7 @@ def create():
 
 @blog_blueprint.route('/<int:id>/update', methods=('GET', 'POST'))
 @login_required
+@requires_roles('user')
 def update(id):
     post = Post.query.filter_by(id=id).first()
     if not post:
@@ -74,6 +77,7 @@ def update(id):
 
 @blog_blueprint.route('/<int:id>/delete')
 @login_required
+@requires_roles('user')
 def delete(id):
     Post.query.filter_by(id=id).delete()
     db.session.commit()

@@ -22,6 +22,7 @@ class User(db.Model, UserMixin):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), nullable=False, unique=True)
     password = db.Column(db.String(100), nullable=False)
+    role = db.Column(db.String(100), nullable=False)
 
     # crypto key for user's posts
     postkey = db.Column(db.BLOB)
@@ -33,9 +34,10 @@ class User(db.Model, UserMixin):
 
     blogs = db.relationship('Post')
 
-    def __init__(self, username, password, pinkey):
+    def __init__(self, username, password, role, pinkey):
         self.username = username
         self.password = generate_password_hash(password)
+        self.role = role
         self.postkey = base64.urlsafe_b64encode(scrypt(password, str(get_random_bytes(32)), 32, N=2 ** 14, r=8, p=1))
         self.pinkey = pinkey
         self.registered_on = datetime.now()
@@ -71,6 +73,6 @@ class Post(db.Model):
 def init_db():
     db.drop_all()
     db.create_all()
-    new_user = User(username='test@email.com', password='Hellothere1', pinkey='BFB5S34STBLZCOB22K6PPYDCMZMH46OJ')
+    new_user = User(username='test@email.com', password='Hellothere1', role='admin', pinkey='BFB5S34STBLZCOB22K6PPYDCMZMH46OJ')
     db.session.add(new_user)
     db.session.commit()
