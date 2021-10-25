@@ -71,6 +71,6 @@ class Post(db.Model):
 def init_db():
     db.drop_all()
     db.create_all()
-    new_user = User(username='user1@test.com', password='mysecretpassword', pinkey='BFB5S34STBLZCOB22K6PPYDCMZMH46OJ')
+    new_user = User(username='test@email.com', password='Hellothere1', pinkey='BFB5S34STBLZCOB22K6PPYDCMZMH46OJ')
     db.session.add(new_user)
     db.session.commit()
